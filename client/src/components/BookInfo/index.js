@@ -1,80 +1,84 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import './BookInfo.css';
 import { useParams } from "react-router-dom";
 import { toast } from 'react-toastify';
 import noImgBook from '../../assets/images/capa-branca.jpg';
 
 export default function BookInfo() {
-  const { bookId } = useParams();
-  const [livro, setLivro] = useState(null);
-  const [error, setError] = useState(null);
-
+  const { id } = useParams();
+  const [book, setBook] = useState([]);
 
   const handleAddToReadLater = () => {
-    fetch(`http://localhost:8000/api/saved-books/${bookId}`, {
-      method: 'POST',
-      credentials: 'include', // Inclui os cookies na requisição
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Erro ao adicionar o livro à lista Ler Mais Tarde');
-        }
-        return response.json();
-      })
-      .then(data => {
-        toast.success('Livro salvo!')
-      })
-      .catch(error => console.error(error));
+    // Pega a lista atual do localStorage ou cria array vazio
+    const savedBooks = JSON.parse(localStorage.getItem('savedBooks')) || [];
+    
+    // Verifica se o livro já está salvo
+    if (savedBooks.includes(book.id)) {
+      toast.warning('Este livro já está na sua lista!');
+      return;
+    }
+    
+    // Adiciona o novo livro
+    savedBooks.push(book.id);
+    
+    // Salva no localStorage
+    localStorage.setItem('savedBooks', JSON.stringify(savedBooks));
+    
+    toast.success('Livro salvo para ler depois!');
   };
 
   useEffect(() => {
-    // Busca todos os livros da API
-    fetch('http://localhost:8000/api/books')
-      .then(response => {
+    const fetchBook = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/books/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
         if (!response.ok) {
-          throw new Error('Erro ao buscar livros: ' + response.statusText);
+          throw new Error("Erro ao buscar livros");
         }
-        return response.json();
-      })
-      .then(data => {
-        // Filtra o livro pelo bookId
-        const livroEncontrado = data.find(book => book._id === bookId);
-        if (livroEncontrado) {
-          setLivro(livroEncontrado);
-        } else {
-          setError('Livro não encontrado');
-        }
-      })
-      .catch(error => setError(error.message));
-  }, [bookId]);
 
-  if (error) {
-    return <div className="error-message">Erro: {error}</div>;
-  }
+        const data = await response.json();
+        setBook(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  if (!livro) {
+    fetchBook();
+  }, [id]);
+
+  if (!book) {
     return <div>Carregando...</div>;
   }
 
   return (
     <div className="livro">
-      <div className="container mt-5">
+      <div className="container">
         <div className="row">
           <div className="col-md-6 book-cover">
             <img
-              src={livro.imgUrl || noImgBook} 
-              alt={`Capa do livro ${livro.nome}`}
+              src={book.cover_url || noImgBook} 
+              alt={`Capa do livro ${book.title}`}
               className="img-fluid"
             />
+            
           </div>
           <div className="col-md-6 book-info">
             <div className="title-and-back">
-              <h2>{livro.nome}</h2>
+              <h2>{book.title}</h2>
+                {book.user ? (
+                  <h3>Postado por {book.user.name}</h3>
+                ) : null}
             </div>
-            <h3>{livro.autor}</h3>
-            <p>{livro.desc}</p>
+            <p>{book.description}</p>
             <div className="button-container">
-              <a href={livro.pdfUrl} target="_blank" rel="noreferrer" className="btn btn-primary btn-color btn-left">Acessar Livro</a>
+              <a href={book.pdf_url} target="_blank" rel="noreferrer" className="btn btn-primary btn-color btn-left">Acessar Livro</a>
               <button onClick={handleAddToReadLater} className="btn btn-primary btn-color btn-right">Ler mais tarde</button>
             </div>
           </div>

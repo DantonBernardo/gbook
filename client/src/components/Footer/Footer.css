@@ -1,27 +1,23 @@
-footer.site-footer {
-    background-color: #272727;
-    color: white;
-    padding: 10px 0;
-    margin-top: 0px;
-    font-weight: bold;
-}
-
-footer.site-footer .footer-container {
+.footer{
+    width: 100%;
+    background-color: #1a1a1a;
+    color: #f4f0f0;
     text-align: center;
-}
-
-footer.site-footer img {
-    filter: brightness(0) invert(1); /*Filtro para deixar os icones brancos*/
-    padding: 8px;
-}
-
-/* Adicionando a classe footer-icons para uma organização flexível e responsiva */
-footer.site-footer .footer-icons {
     display: flex;
-    justify-content: center; 
-    gap: 2vw; 
+    justify-content: center;
 }
 
-footer.site-footer .footer-icons img {
-    width: 80px;
+.footer-container{
+    padding: 1rem 0;
+    margin: auto 0;
+}
+
+.footer-container{
+    margin: auto 0;
+    margin-bottom: 0;
+}
+
+.footer-container p{
+    margin: auto 0;
+    margin-bottom: 0;
 }

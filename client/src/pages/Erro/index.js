@@ -1,14 +1,25 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../Erro/Erro.css'; 
-import { Link } from 'react-router-dom';
-import error404 from '../../assets/images/error404.png';
+import "../Erro/Erro.css"; 
+import { useNavigate } from "react-router-dom";
+import error404 from "../../assets/images/error404.png";
 
 export default function Erro (){
+  const navigate = useNavigate()
+
+  async function handleRedirect(){
+    navigate("/home")
+  }
+
   return (
-    <div className="container text-center d-flex flex-column align-items-center justify-content-center min-vh-100">
-      <img className="error img-fluid-max" src={error404} alt="Error 404" />
-      <Link to="/Home" className="btn btn-primary btn-lg mb-0">Voltar para a Home</Link>
+    <div className="error">
+      <div className="error-container">
+        <img
+          src={error404} 
+          alt="Error 404" 
+        />
+        <button onClick={handleRedirect}>
+          Voltar para página inicial
+        </button>
+      </div>
     </div>
   );
 }

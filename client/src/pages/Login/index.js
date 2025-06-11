@@ -1,44 +1,81 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+
 import './Login.css';
 
-import { AuthContext } from "../../context/auth";
-import { Link } from 'react-router-dom'; 
-
 import GBLogo from '../../assets/images/login/LogoMin.png';
-import mascote from '../../assets/images/login/mascote.png';
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState("");
+  const navigate = useNavigate();
 
-  const { signIn, loadingAuth } = useContext(AuthContext);
-
-  async function loginSubmit(e) {
+  async function handleLogin(e) {
     e.preventDefault();
-    if (email !== '' && password !== ""){
-      await signIn(email, password);
+
+    setLoading(true);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+      console.log('Login bem-sucedido:', data);
+
+      localStorage.setItem('token', data.access_token);
+
+      toast.success("Login realizado com sucesso!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      setLoading(false);
+      navigate('/home');
+    } catch (error) {
+      setLoading(false);
+      toast.error("Credenciais incorretas!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   }
 
   return (
-    <div className="LoginContainer">
+    <div className="loginContainer">
       <div className="loginForm">
-        <img 
-          src={GBLogo} 
-          alt="Logo minimalista GBook"
-        />
+        <img src={GBLogo} alt="Logo minimalista GBook" />
         <h1>Bem vindo de volta!</h1>
         <h3>Por favor, insira seus dados</h3>
 
-        <form onSubmit={loginSubmit}>
-          <input 
+        <form onSubmit={handleLogin}>
+          <input
             type="email"
-            placeholder="Login"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <input 
+
+          <input
             type="password"
             placeholder="Senha"
             value={password}
@@ -46,19 +83,10 @@ export default function Login() {
             required
           />
 
-          <Link to="/ResetSenha" id="esqueceuSenha">Esqueceu a senha?</Link>
-
           <button type="submit">
-            {loadingAuth ? "Carregando.." : "Acessar"}
+            {loading ? "Carregando..." : "Acessar"}
           </button>
         </form>
-      </div>
-
-      <div className="loginImg">
-        <img 
-          src={mascote} 
-          alt="Boneco GBook"
-        />
       </div>
     </div>
   );

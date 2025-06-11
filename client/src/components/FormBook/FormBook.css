@@ -1,71 +1,230 @@
+/* FormBook.css */
+:root {
+  --primary-color: #4361ee;
+  --primary-dark: #3a56d4;
+  --secondary-color: #3f37c9;
+  --accent-color: #4895ef;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+  --success-color: #4bb543;
+  --error-color: #ff3333;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
 .form-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
+  max-width: 800px;
   margin: 2rem auto;
+  padding: 2.5rem;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  animation: fadeIn 0.5s ease-out;
 }
 
-.form-container h2 {
-  color: #333;
-  margin-bottom: 1.5rem;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.add-livro-form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+.form-container .add-livro-form {
+  display: grid;
+  gap: 1.5rem;
 }
 
-.add-livro-form label {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  color: #555;
-}
-
-.add-livro-form input[type="text"],
-.add-livro-form textarea,
-.add-livro-form select {
-  padding: 0.5rem;
+.form-container label {
+  font-weight: 600;
+  color: var(--dark-color);
   font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 1rem;
-  outline: none;
-  width: 100%;
-  box-sizing: border-box;
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
-.add-livro-form textarea {
-  height: 100px;
+.form-container input[type="text"],
+.form-container input[type="url"],
+.form-container textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: var(--transition);
+  background-color: var(--light-color);
+}
+
+.form-container input[type="text"]:focus,
+.form-container input[type="url"]:focus,
+.form-container textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(72, 149, 239, 0.2);
+}
+
+.form-container textarea {
+  min-height: 120px;
   resize: vertical;
 }
 
-.add-livro-form input[type="file"] {
-  margin-bottom: 1rem;
+.form-container input[type="file"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px dashed #ccc;
+  border-radius: var(--border-radius);
+  background-color: #f8f9fa;
+  transition: var(--transition);
 }
 
-.add-livro-form button {
-  padding: 0.7rem;
-  font-size: 1rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
+.form-container input[type="file"]:hover {
+  border-color: var(--accent-color);
+  background-color: #e9f5ff;
+}
+
+.form-container input[type="file"]::file-selector-button {
+  padding: 0.5rem 1rem;
+  background-color: var(--light-color);
+  border: 1px solid #ddd;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: var(--transition);
+  margin-right: 1rem;
 }
 
-.add-livro-form button:hover {
-  background-color: #0056b3;
+.form-container input[type="file"]::file-selector-button:hover {
+  background-color: #e9ecef;
 }
 
-.error-message {
-  color: red;
-  font-weight: bold;
-  margin-top: 10px;
+.form-container button[type="submit"] {
+  padding: 0.8rem 1.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 1rem;
+  box-shadow: var(--box-shadow);
+  width: 100%;
+}
+
+.form-container button[type="submit"]:hover:not(:disabled) {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.form-container button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+.form-container button[type="submit"]:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Image preview */
+.form-container .image-preview {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.form-container .image-preview img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  border: 1px solid #eee;
+}
+
+/* Loading state */
+.form-container > div {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--dark-color);
+  margin: 2rem 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .form-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    padding: 1rem;
+  }
+  
+  .form-container input[type="text"],
+  .form-container input[type="url"],
+  .form-container textarea {
+    padding: 0.7rem;
+  }
+  
+  .form-container button[type="submit"] {
+    padding: 0.7rem 1.2rem;
+  }
+}
+
+/* Animation for form elements */
+.form-container .add-livro-form > * {
+  animation: slideIn 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Staggered animations for form elements */
+.form-container .add-livro-form > *:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.form-container .add-livro-form > *:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.form-container .add-livro-form > *:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.form-container .add-livro-form > *:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.form-container .add-livro-form > *:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+.form-container button[type="submit"] {
+  animation-delay: 0.6s;
+}
+
+/* Focus styles for better accessibility */
+.form-container input:focus-visible,
+.form-container textarea:focus-visible,
+.form-container button:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
 }

@@ -1,73 +1,54 @@
-.ShowBooks .top{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0px 25px;
+.showbooks{
+  margin: 1rem 0;
 }
 
-.ShowBooks .top h1{
+.showbooks-title {
   color: #f4f0f0;
-}
-
-.ShowBooks .top button{
-  padding: 10px;
-  background-color: #ffbe0b;
-  color: 0;
-  border: none;
-  border-radius: 10px;
-  transition: .2s;
-}
-
-.ShowBooks .top button:hover{
-  background-color: #d39d0a;
-}
-
-.ShowBooks .books-container {
+  font-size: 4rem;
   text-align: center;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
-  padding: 20px;
-}
-
-.ShowBooks .book-item {
-  background-color: #623cea;
-  padding: 10px;
-  border-radius: 8px;
-  transition: transform 0.3s ease;
-  text-align: center;
-}
-
-.ShowBooks .book-item img {
   width: 100%;
-  height: 80%;
-  object-fit: cover;
-  border-radius: 8px;
+  font-family: 'archivo';
+  margin-bottom: 0;
 }
 
-.ShowBooks .books-container .book-item a{
-  text-decoration: none;
+.showbooks-content ul{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.showbooks-book{
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.showbooks-book-title{
   color: #f4f0f0;
+  margin: .5rem 0;
+  font-size: 1rem;
+  text-align: center;
+  max-width: 300px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
-.ShowBooks .book-item:hover {
-  transform: scale(1.05);
+.showbooks-book-a{
+  cursor: pointer;
+  transition: .5s;
 }
 
-@media (max-width: 1024px) {
-  .ShowBooks .books-container {
-    grid-template-columns: repeat(3, 1fr);
-  }
+.showbooks-book-a:hover{
+  filter: brightness(80%);
+  transition: .5s;
 }
 
-@media (max-width: 768px) {
-  .ShowBooks .books-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 480px) {
-  .ShowBooks .books-container {
-    grid-template-columns: 1fr;
-  }
+.showbooks-book-cover{
+  width: 300px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 10px;
 }

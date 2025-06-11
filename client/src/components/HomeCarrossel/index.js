@@ -1,6 +1,4 @@
-import React from "react";
 import '../HomeCarrossel/HomeCarrossel.css';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 

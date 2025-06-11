@@ -1,43 +1,63 @@
-import React, { useEffect, useState, useContext } from "react";
-import './ShowBooks.css';
-import { Link } from "react-router-dom";
-import { AuthContext } from '../../context/auth';
-import noImgBook from '../../assets/images/capa-branca.jpg';
+import "./ShowBooks.css";
+import { useEffect, useState } from "react";
+import defaultCover from "../../assets/images/capa-branca.jpg";
 
 export default function ShowBooks() {
-  const { user } = useContext(AuthContext);
-  const [bookList, setBookList] = useState([]);
+  const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    let url = 'http://localhost:8000/api/books';
-    fetch(url)
-      .then((r) => r.json())
-      .then((json) => {
-        console.log(json);  // Verifique os dados retornados pela API
-        setBookList(json);  // Armazena os dados no estado
-      })
-      .catch((err) => console.error('Erro ao buscar os livros:', err));  // Trate erros de requisição
+    const fetchBooks = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/books`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error("Erro ao buscar livros");
+        }
+
+        const data = await response.json();
+        setBooks(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchBooks();
   }, []);
 
   return (
-    <div className="ShowBooks">
-      <div className="top">
-        <h1>Todos os livros</h1>
-        {user.user_type === "professor" && (
-          <Link to="/AddLivro">
-            <button><b>Adicionar livro</b></button>
-          </Link>
+    <div className="showbooks">
+      <h1 className="showbooks-title">Biblioteca geral</h1>
+      <div className="showbooks-content">
+        {books.length > 0 ? (
+          <ul>
+            {books.map((book) => (
+              <li key={book.id} className="showbooks-book">
+                <a 
+                  href={`/livro/${book.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="showbooks-book-a"
+                >
+                  <img
+                    src={book.cover_url || defaultCover}
+                    alt={book.title}
+                    className="showbooks-book-cover"
+                  />
+                </a>
+                <p className="showbooks-book-title">{book.title}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>Nenhum livro encontrado.</p>
         )}
-      </div>
-      <div className="books-container">
-        {bookList.map((book) => (
-          <div key={book._id} className="book-item">
-            <Link to={`/Livro/${book._id}`}>
-              <img src={book.imgUrl || noImgBook} alt={book.nome} />
-              <p><b>{book.nome}</b></p>
-            </Link>
-          </div>
-        ))}
       </div>
     </div>
   );

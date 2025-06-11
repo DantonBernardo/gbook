@@ -1,22 +1,32 @@
-import { useContext } from 'react'
-import { Navigate } from 'react-router-dom'
-import { AuthContext } from '../context/auth'
+import { useNavigate, useLocation } from 'react-router-dom';
+import useTokenValidator from './token';
+import { useEffect, useState } from 'react';
 
-export default function Private({ children, requiredType }){
-  const { signed, loading, user } = useContext(AuthContext);
+export default function Private({ children, requiredType }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { isValid, isLoading, user } = useTokenValidator();
+  const [isAuthorized, setIsAuthorized] = useState(false);
 
-  if(loading){
-    return(
-      <div></div>
-    )
+  useEffect(() => {
+    if (!isLoading) {
+      // 1. Verificação de autenticação
+      if (!isValid) {
+        navigate('/', { replace: true, state: { from: location.pathname } });
+        return;
+      }
+
+      // 4. Se passou em todas verificações
+      setIsAuthorized(true);
+    }
+  }, [isValid, isLoading, user, requiredType, navigate, location]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
-  if(!signed){
-    return  <Navigate to="/" />
-  }
-
-  if (requiredType && user?.user_type !== requiredType) {
-    return <Navigate to="*" />;
+  if (!isAuthorized) {
+    return null;
   }
 
   return children;

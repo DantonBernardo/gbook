@@ -1,11 +1,17 @@
 .livro {
-  margin-bottom: 20px;
-  margin-top: -20px;
+  min-height: 80vh;
+  height: auto;
+  display: flex;
+  margin: 1rem 0;
+}
+
+.container{
+  margin: auto;
 }
 
 .livro h2 {
   color: #ffbe0b;
-  text-align: center; 
+  text-align: start; 
   font-size: 40px; 
 }
 
@@ -26,14 +32,29 @@
 
 .button-container {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+  flex-direction: column;
+  margin: 1rem 12rem;
+  padding: 1rem;
+}
+
+.button-container .btn{
+  margin: .5rem 0;
+}
+
+.button-container button{
+  background-color: #2c1c64;
+}
+
+.button-container button:hover{
+  background-color: #544296;
 }
 
 .btn-color {
   background-color: #623cea;
   border: none;
-  width: 45%;
+  width: 100%;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
 .btn-color:hover {
