@@ -63,7 +63,7 @@ export default function BookInfo() {
         <div className="row">
           <div className="col-md-6 book-cover">
             <img
-              src={book.cover_url || noImgBook} 
+              src={noImgBook} 
               alt={`Capa do livro ${book.title}`}
               className="img-fluid"
             />

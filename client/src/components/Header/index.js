@@ -58,6 +58,11 @@ useEffect(() => {
     }
   };
 
+  const handleChange = (e) => {
+    if (e.target.name === "barra" && e.target.value.length > 100) return;
+    setSearchQuery(e.target.value)
+  }
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -102,8 +107,9 @@ useEffect(() => {
                   placeholder="Pesquisar livro"
                   aria-label="Search" 
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={ handleChange}
                   id="barra-de-busca"
+                  name='barra'
                 />
                 {/* <button className="btn btn-outline-success cor-barra-busca" type="submit">Buscar</button> */}
               </form>

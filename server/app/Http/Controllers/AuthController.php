@@ -11,6 +11,11 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
+    public function index (Request $request) {
+        $users = User::all();
+        return response()->json($users);
+    }
+
     public function login(Request $request)
     {
         $request->validate([
@@ -21,7 +26,8 @@ class AuthController extends Controller
         $email = $request->get('email');
         $password = $request->get('password');
         
-        $user = User::where('email', $email)->first();
+        $user = User::where('email', $request->email)->first();
+
 
         if (! $user || ! Hash::check($password, $user->password)) {
             throw ValidationException::withMessages([

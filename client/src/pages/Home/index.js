@@ -2,6 +2,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import HomeCarrossel from '../../components/HomeCarrossel';
 import RecentBooks from '../../components/RecentBooks';
+//import RandomBook from '../../components/RandomBook';
 
 import slide1 from '../../assets/images/carousel/primeiro_slide.png';
 import slide2 from '../../assets/images/carousel/segundo_slide.png';
@@ -23,6 +24,7 @@ export default function Home() {
         alt3={'Slide 3'}
       />
       <RecentBooks />
+      {/* <RandomBook /> */}
       <Footer />
     </div>
   );

@@ -54,6 +54,22 @@ class BookController extends Controller
                         }
                     },
                 ],
+            ],[
+                'title.required' => 'O título é obrigatório.',
+                'title.string' => 'O título deve ser um texto válido.',
+                'title.max' => 'O título deve ter no máximo 255 caracteres.',
+
+                'description.required' => 'A descrição é obrigatória.',
+                'description.string' => 'A descrição deve ser um texto válido.',
+                'description.max' => 'A descrição deve ter no máximo 400 caracteres.',
+
+                'cover.image' => 'A capa deve ser uma imagem válida.',
+                'cover.mimes' => 'A capa deve estar no formato JPEG, PNG ou JPG.',
+                'cover.max' => 'A imagem da capa deve ter no máximo 2MB.',
+
+                'pdf_url.required' => 'O link do PDF é obrigatório.',
+                'pdf_url.starts_with' => 'O link do PDF deve começar com http ou https.',
+                'pdf_url.url' => 'O link do PDF deve ser uma URL válida.',
             ]);
 
             $user = JWTAuth::user();
@@ -83,9 +99,12 @@ class BookController extends Controller
             ], 201);
 
         } catch (ValidationException $e) {
+            $errors = $e->errors();
+            $firstErrorMessage = collect($errors)->flatten()->first(); // pega a primeira mensagem
+
             return response()->json([
-                'message' => 'Erro de validação',
-                'errors' => $e->errors(),
+                'message' => $firstErrorMessage ?? 'Erro de validação',
+                'errors' => $errors,
             ], 422);
         } catch (\Exception $e) {
             return response()->json([
@@ -123,6 +142,22 @@ class BookController extends Controller
                         }
                     },
                 ],
+            ],[
+                'title.required' => 'O título é obrigatório.',
+                'title.string' => 'O título deve ser um texto válido.',
+                'title.max' => 'O título deve ter no máximo 255 caracteres.',
+
+                'description.required' => 'A descrição é obrigatória.',
+                'description.string' => 'A descrição deve ser um texto válido.',
+                'description.max' => 'A descrição deve ter no máximo 400 caracteres.',
+
+                'cover.image' => 'A capa deve ser uma imagem válida.',
+                'cover.mimes' => 'A capa deve estar no formato JPEG, PNG ou JPG.',
+                'cover.max' => 'A imagem da capa deve ter no máximo 2MB.',
+
+                'pdf_url.required' => 'O link do PDF é obrigatório.',
+                'pdf_url.starts_with' => 'O link do PDF deve começar com http ou https.',
+                'pdf_url.url' => 'O link do PDF deve ser uma URL válida.',
             ]);
 
     
@@ -147,9 +182,12 @@ class BookController extends Controller
             ]);
 
         } catch (ValidationException $e) {
+            $errors = $e->errors();
+            $firstErrorMessage = collect($errors)->flatten()->first(); // pega a primeira mensagem
+
             return response()->json([
-                'message' => 'Erro de validação',
-                'errors' => $e->errors(),
+                'message' => $firstErrorMessage ?? 'Erro de validação',
+                'errors' => $errors,
             ], 422);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([

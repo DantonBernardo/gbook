@@ -12,6 +12,8 @@ export default function Login() {
   const [loading, setLoading] = useState("");
   const navigate = useNavigate();
 
+  console.log(process.env.REACT_APP_API_URL)
+
   async function handleLogin(e) {
     e.preventDefault();
 

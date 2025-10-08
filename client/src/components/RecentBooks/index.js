@@ -79,7 +79,7 @@ export default function RecentBooks({ tituloSecao }) {
           {books.map((book) => (
             <div key={book.id} className="book-card">
               <img
-                src={book.cover_url || defaultCover}
+                src={defaultCover}
                 alt={book.title}
                 className="showbooks-book-cover"
               />

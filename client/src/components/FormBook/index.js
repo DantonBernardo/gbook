@@ -63,6 +63,11 @@ export default function FormBook() {
   // Manipuladores de estado unificados
   const handleChange = (e) => {
     const { name, value } = e.target;
+      if (name === "title" && value.length > 100) return;
+      if (name === "description" && value.length > 400) return;
+      if (name === "pdf_url" && value.length > 400) return;
+
+
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 

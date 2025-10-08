@@ -199,7 +199,7 @@ export default function DadosPerfil() {
         <div className="profile-image-section">
           <div className="profile-image-container">
             <img 
-              src={user.profile_image_url || defaultProfile} 
+              src={defaultProfile} 
               alt="Foto de perfil" 
               className="profile-image"
             />

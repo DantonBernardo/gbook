@@ -46,7 +46,7 @@ export default function ShowBooks() {
                   className="showbooks-book-a"
                 >
                   <img
-                    src={book.cover_url || defaultCover}
+                    src={defaultCover}
                     alt={book.title}
                     className="showbooks-book-cover"
                   />

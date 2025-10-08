@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 // Rotas públicas
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/test', function() {
+    return response()->json(['message' => 'API is working']);
+});
 
 // Rotas protegidas por auth:api
 Route::middleware('auth:api')->group(function () {

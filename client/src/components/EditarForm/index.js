@@ -43,6 +43,9 @@ export default function EditarForm() {
   }, [id]);
 
   const handleChange = (e) => {
+    if (e.target.name === "title" && e.target.value.length > 100) return;
+    if (e.target.name === "description" && e.target.value.length > 400) return;
+    if (e.target.name === "pdf_url" && e.target.value.length > 400) return;
     setBook({ ...book, [e.target.name]: e.target.value });
   };
 
@@ -70,13 +73,10 @@ export default function EditarForm() {
         },
         body: formData,
       });
-      console.log(response);
-
-      const result = await response.json();
-      console.log(result);
+      // const result = await response.json();
       
       if (!response.ok) {
-        toast.error("Erro ao atualizar livro.");
+        toast.error('Por favor, confira os dados digitados.');
         return;
       }
 
@@ -84,7 +84,7 @@ export default function EditarForm() {
       navigate("/postados");
 
     } catch (error) {
-      toast.error("Erro ao atualizar livro.");
+      toast.error(error.message);
     }
   };
 

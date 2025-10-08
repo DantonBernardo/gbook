@@ -3,6 +3,7 @@ import "./style.css";
 import defaultCover from "../../assets/images/capa-branca.jpg";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Postados() {
   const [books, setBooks] = useState([]);
@@ -63,10 +64,6 @@ export default function Postados() {
     navigate(`/editar/${id}`);
   };
 
-  const seeTrash = () => {
-    navigate('/lixeira')
-  }
-
   const handleTrash = async (id) => {
     try {
       const token = localStorage.getItem("token");
@@ -95,7 +92,7 @@ export default function Postados() {
           <div>
             <div className="postados-top">
               <h2>Livros postados</h2>
-              <a onClick={() => seeTrash()}>Lixeira</a>
+              <Link to="/lixeira">Lixeira</Link>
             </div>
             <ul>
               {books.map((book) => (
